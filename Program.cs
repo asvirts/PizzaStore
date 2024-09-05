@@ -14,13 +14,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pizza API V1"); });
 }
 
-var p = PizzaDB.GetPizzas();
 app.MapGet("/", () => PizzaDB.GetPizzas());
 
 app.MapGet("/pizzas", () => PizzaDB.GetPizzas());
 app.MapGet("/pizzas/{id}", (int id) => PizzaDB.GetPizza(id));
+
 app.MapPost("/pizzas", (Pizza pizza) => PizzaDB.CreatePizza(pizza));
+
 app.MapPut("/pizzas", (Pizza pizza) => PizzaDB.UpdatePizza(pizza));
+
 app.MapDelete("/pizzas/{id}", (int id) => PizzaDB.RemovePizza(id));
+
+
 
 app.Run();

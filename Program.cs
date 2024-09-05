@@ -15,7 +15,7 @@ if (app.Environment.IsDevelopment())
 }
 
 var p = PizzaDB.GetPizzas();
-app.MapGet("/", () => PizzaDB.GetPizza(1));
+app.MapGet("/", () => PizzaDB.GetPizzas());
 
 app.MapGet("/pizzas", () => PizzaDB.GetPizzas());
 app.MapGet("/pizzas/{id}", (int id) => PizzaDB.GetPizza(id));

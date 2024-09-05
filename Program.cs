@@ -14,7 +14,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pizza API V1"); });
 }
 
-app.MapGet("/", () => "Hello World!");
+var p = PizzaDB.GetPizzas();
+app.MapGet("/", () => PizzaDB.GetPizza(1));
 
 app.MapGet("/pizzas", () => PizzaDB.GetPizzas());
 app.MapGet("/pizzas/{id}", (int id) => PizzaDB.GetPizza(id));

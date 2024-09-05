@@ -2,50 +2,45 @@ namespace PizzaStore.DB;
 
 public record Pizza
 {
-    public int Id { get; set; }
     public string? Name { get; set; }
+    public string? Description { get; set; }
 }
 
 public class PizzaDB
 {
-    private static List<Pizza> _pizzas = new List<Pizza>()
+    private static Dictionary<int, Pizza> _pizzas = new Dictionary<int, Pizza>
    {
-     new Pizza{ Id=1, Name="Montemagno, Pizza shaped like a great mountain" },
-     new Pizza{ Id=2, Name="The Galloway, Pizza shaped like a submarine, silent but deadly"},
-     new Pizza{ Id=3, Name="The Noring, Pizza shaped like a Viking helmet, where's the mead"}
+     { 1, new Pizza {Name = "Montemagno", Description = "A really tasty pizza"} },
+     { 2, new Pizza {Name = "The Galloway", Description = "Pizza shaped like a submarine, silent but deadly"} },
+     { 3, new Pizza {Name = "The Noring", Description = "Pizza shaped like a Viking helmet, where's the mead"} },
    };
 
-    public static List<Pizza> GetPizzas()
+    public static Dictionary<int, Pizza> GetPizzas()
     {
         return _pizzas;
     }
 
-    public static Pizza? GetPizza(int id)
+    public static Pizza? GetPizza(int key)
     {
-        return _pizzas.SingleOrDefault(pizza => pizza.Id == id);
+        return _pizzas.ContainsKey(key) ? _pizzas.Where(k => k.Key == key).First().Value : null;
     }
 
     public static Pizza CreatePizza(Pizza pizza)
     {
-        _pizzas.Add(pizza);
+        _pizzas.Add(4, pizza);
         return pizza;
     }
 
     public static Pizza UpdatePizza(Pizza update)
     {
-        _pizzas = _pizzas.Select(pizza =>
-        {
-            if (pizza.Id == update.Id)
-            {
-                pizza.Name = update.Name;
-            }
-            return pizza;
-        }).ToList();
+        _pizzas.Where(_pizza => _pizza.Value.Name == update.Name).First().Value.Name = update.Name;
+        _pizzas.Where(_pizza => _pizza.Value.Name == update.Name).First().Value.Description = update.Description;
+
         return update;
     }
 
-    public static void RemovePizza(int id)
+    public static void RemovePizza(int key)
     {
-        _pizzas = _pizzas.FindAll(pizza => pizza.Id != id).ToList();
+        _pizzas.Remove(key);
     }
 }
